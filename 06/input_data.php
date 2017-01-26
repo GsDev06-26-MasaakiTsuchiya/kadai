@@ -60,7 +60,7 @@ div.item{
       <div class="row">
         <div class="col-sm-7 hidden-xs"></div>
           <div class="col-sm-1">
-            <label for="user_name">評価者</label>
+            <label for="user_name">面接者</label>
           </div>
           <div class="col-sm-3">
             <select class="form-control" name="user_name">
