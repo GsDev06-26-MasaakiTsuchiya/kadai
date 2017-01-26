@@ -45,6 +45,9 @@ $json_data = json_encode($dataList);
 <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
 <link rel="stylesheet" href="./css/common.css">
 <style type="text/css">
+  body{
+    background:#f8f8f8;
+  }
   th {
     white-space: nowrap;
   }
