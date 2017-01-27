@@ -15,7 +15,7 @@ $skill_point_5 = $_POST["skill_point_5"];
 $skill_qualitative_5 = $_POST["skill_qualitative_5"];
 $skill_qualitative_6 = $_POST["skill_qualitative_6"];//
 
-//データ書き込み
+// //データ書き込み
 $str = $user_name.",".$skill_point_0.",".$skill_point_1.",".$skill_point_2.",".$skill_point_3.",".$skill_point_4.",".$skill_point_5.",".$skill_qualitative_0.",".$skill_qualitative_1.",".$skill_qualitative_2.",".$skill_qualitative_3.",".$skill_qualitative_4.",".$skill_qualitative_5.",".$skill_qualitative_6;
 $file = fopen("data/data.csv","a");	// ファイル読み込み
 flock($file, LOCK_EX);			// ファイルロック 他の人からアクセスできなくする決め打ち
@@ -38,7 +38,7 @@ $json_data = json_encode($dataList);
 <html lang="ja">
 <head>
 <meta charset="utf-8">
-<title>input</title>
+<title>interview_rader_chart > result </title>
 <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
@@ -48,8 +48,11 @@ $json_data = json_encode($dataList);
   body{
     background:#f8f8f8;
   }
-  th {
+  /*th {
     white-space: nowrap;
+  }*/
+  td.comment{
+    word-wrap:break-word;
   }
 
   .tableItemTitle{
@@ -90,8 +93,8 @@ $json_data = json_encode($dataList);
 <h2 class="text-center">評価詳細</h2>
 <div class="container">
   <div class="row">
-    <div class="col-xs-1"></div>
-    <div class="col-xs-10">
+    <div class="col-sm-1"></div>
+    <div class="col-sm-10">
 <?php
 include("./function/function.php");
 foreach($lines as $line){
@@ -99,23 +102,22 @@ foreach($lines as $line){
   $data = explode(',',$line);
   $avarage = round(($data[1] + $data[2]+ $data[3]+ $data[4]+ $data[5]+ $data[6])/6,2) ;
 echo '<h3 class="text-center">'.h($data[0]).'</h3>';
-echo '<table class="table table-responsive table-striped evaluation_detail">';
-
-echo '<thead class="thead-inverse"><tr><th class="tableItemTitle text-center">評価項目</th><th class="tablePointTitle text-center">点数</th><th class="tableCommentTitle text-center">コメント</th></tr></thead>';
+echo '<table class="table table-striped evaluation_detail" style="table-layout:fixed;width:100%;">';
+echo '<thead><tr><th class="text-center">評価項目</th><th class="text-center">score</th><th class="text-center">comment</th></tr></thead>';
 echo '<tbody>';
-echo '<tr><th class="text-center">能力・スキル</th><td class="point text-center">'.h($data[1]).'</td><td class="comment">'.h($data[7]).'</td></tr>';
-echo '<tr><th class="text-center">協調性</th><td class="point text-center">'.h($data[2]).'</td><td class="comment">'.h($data[8]).'</td></tr>';
-echo '<tr><th class="text-center">コミュニケーション能力</th><td class="point text-center">'.h($data[3]).'</td><td class="comment">'.h($data[9]).'</td></tr>';
-echo '<tr><th class="text-center">積極性</th><td class="point text-center">'.h($data[4]).'</td><td class="comment">'.h($data[10]).'</td></tr>';
-echo '<tr><th class="text-center">モラル・性格面</th><td class="point text-center">'.h($data[5]).'</td><td class="comment">'.h($data[11]).'</td></tr>';
-echo '<tr><th class="text-center">定着度</th><td class="point text-center">'.h($data[6]).'</td><td class="comment">'.h($data[12]).'</td></tr>';
-echo '<tr><th class="text-center">平均点/総評</th><td class="point text-center">'.h($avarage).'</td><td class="comment">'.h($data[13]).'</td></tr>';
+echo '<tr><td class="text-center">能力・スキル</td><td class="point text-center">'.h($data[1]).'</td><td class="comment">'.h($data[7]).'</td></tr>';
+echo '<tr><td class="text-center">協調性</td><td class="point text-center">'.h($data[2]).'</td><td class="comment">'.h($data[8]).'</td></tr>';
+echo '<tr><td class="text-center">コミュニケーション能力</td><td class="point text-center">'.h($data[3]).'</td><td class="comment">'.h($data[9]).'</td></tr>';
+echo '<tr><td class="text-center">積極性</td><td class="point text-center">'.h($data[4]).'</td><td class="comment">'.h($data[10]).'</td></tr>';
+echo '<tr><td class="text-center">モラル・性格面</td><td class="point text-center">'.h($data[5]).'</td><td class="comment">'.h($data[11]).'</td></tr>';
+echo '<tr><td class="text-center">定着度</td><td class="point text-center">'.h($data[6]).'</td><td class="comment">'.h($data[12]).'</td></tr>';
+echo '<tr><td class="text-center">平均点/総評</td><td class="point text-center">'.h($avarage).'</td><td class="comment">'.h($data[13]).'</td></tr>';
 echo '</tbody>';
 echo '</table>';
 }
 ?>
     </div>
-    <div class="col-xs-1"></div>
+    <div class="col-sm-1"></div>
   </div>
 </div>
 <?php include("./template/footer.html") ?>
