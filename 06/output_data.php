@@ -1,27 +1,27 @@
 <?php
 
-// $user_name =  $_POST["user_name"];
-// $skill_point_0 = $_POST["skill_point_0"];
-// $skill_qualitative_0 = $_POST["skill_qualitative_0"];
-// $skill_point_1 = $_POST["skill_point_1"];
-// $skill_qualitative_1 = $_POST["skill_qualitative_1"];
-// $skill_point_2 = $_POST["skill_point_2"];
-// $skill_qualitative_2 = $_POST["skill_qualitative_2"];
-// $skill_point_3 = $_POST["skill_point_3"];
-// $skill_qualitative_3 = $_POST["skill_qualitative_3"];
-// $skill_point_4 = $_POST["skill_point_4"];
-// $skill_qualitative_4 = $_POST["skill_qualitative_4"];
-// $skill_point_5 = $_POST["skill_point_5"];
-// $skill_qualitative_5 = $_POST["skill_qualitative_5"];
-// $skill_qualitative_6 = $_POST["skill_qualitative_6"];//
-//
-// //データ書き込み
-// $str = $user_name.",".$skill_point_0.",".$skill_point_1.",".$skill_point_2.",".$skill_point_3.",".$skill_point_4.",".$skill_point_5.",".$skill_qualitative_0.",".$skill_qualitative_1.",".$skill_qualitative_2.",".$skill_qualitative_3.",".$skill_qualitative_4.",".$skill_qualitative_5.",".$skill_qualitative_6;
-// $file = fopen("data/data.csv","a");	// ファイル読み込み
-// flock($file, LOCK_EX);			// ファイルロック 他の人からアクセスできなくする決め打ち
-// fwrite($file, $str."\n");
-// flock($file, LOCK_UN);			// ファイルロック解除
-// fclose($file);
+$user_name =  $_POST["user_name"];
+$skill_point_0 = $_POST["skill_point_0"];
+$skill_qualitative_0 = $_POST["skill_qualitative_0"];
+$skill_point_1 = $_POST["skill_point_1"];
+$skill_qualitative_1 = $_POST["skill_qualitative_1"];
+$skill_point_2 = $_POST["skill_point_2"];
+$skill_qualitative_2 = $_POST["skill_qualitative_2"];
+$skill_point_3 = $_POST["skill_point_3"];
+$skill_qualitative_3 = $_POST["skill_qualitative_3"];
+$skill_point_4 = $_POST["skill_point_4"];
+$skill_qualitative_4 = $_POST["skill_qualitative_4"];
+$skill_point_5 = $_POST["skill_point_5"];
+$skill_qualitative_5 = $_POST["skill_qualitative_5"];
+$skill_qualitative_6 = $_POST["skill_qualitative_6"];//
+
+//データ書き込み
+$str = $user_name.",".$skill_point_0.",".$skill_point_1.",".$skill_point_2.",".$skill_point_3.",".$skill_point_4.",".$skill_point_5.",".$skill_qualitative_0.",".$skill_qualitative_1.",".$skill_qualitative_2.",".$skill_qualitative_3.",".$skill_qualitative_4.",".$skill_qualitative_5.",".$skill_qualitative_6;
+$file = fopen("data/data.csv","a");	// ファイル読み込み
+flock($file, LOCK_EX);			// ファイルロック 他の人からアクセスできなくする決め打ち
+fwrite($file, $str."\n");
+flock($file, LOCK_UN);			// ファイルロック解除
+fclose($file);
 
 //データ読み込み
 
