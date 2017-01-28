@@ -20,3 +20,12 @@ http://future-software-labo.anyagent.net/php%E3%81%8B%E3%82%89javascript%E3%81%A
 
 table のセルを改行する方法
 http://qiita.com/n_s_y_m/items/cb29d730e63772b02475
+
+
+general ci はひらがなとカタカナを別に考える
+
+INSERT INTO gs_an_table(
+    id,name,email,naiyou,indate
+    )VALUES(
+        NULL, '佐々木', 'test@test.jp', '内容2', sysdate()
+        );
