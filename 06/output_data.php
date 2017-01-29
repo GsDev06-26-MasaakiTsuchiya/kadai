@@ -1,6 +1,6 @@
 <?php
-
-if(isset($_POST["user_name"])){
+if($_SERVER['REQUEST_METHOD']=== 'POST'){
+// if(isset($_POST["user_name"])){
   $user_name =  $_POST["user_name"];
   $skill_point_0 = $_POST["skill_point_0"];
   $skill_qualitative_0 = $_POST["skill_qualitative_0"];
