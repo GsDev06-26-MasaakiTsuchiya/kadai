@@ -1,3 +1,48 @@
+<?php
+include("./function/function.php");
+$interviewee_id = $_POST["target_inteviewee"];
+
+try {
+  $pdo = new PDO('mysql:dbname=gs_db;charset=utf8;host=localhost','root','');
+} catch (PDOException $e) {
+  exit('データベースに接続できませんでした。'.$e->getMessage());
+}
+
+//２．データ登録SQL作成
+$stmt = $pdo->prepare("SELECT * FROM interviewee_info WHERE id = $interviewee_id");
+$status = $stmt->execute();
+
+//３．データ表示
+$view="";
+$data_s = [];
+if($status==false){
+  //execute（SQL実行時にエラーがある場合）
+  $error = $stmt->errorInfo();
+  exit("ErrorQuery:".$error[2]);
+
+}else{
+  //Selectデータの数だけ自動でループしてくれる
+  while( $result = $stmt->fetch(PDO::FETCH_ASSOC)){
+    $view .= '<div class="col-sm-5">';
+    $view .= '<p class="text-center">'.h($result["interviewee_name_kana"]).'</p>';
+    $view .= '<h2 class="text-center">'.h($result["interviewee_name"]).'</h2>';
+    $view .= '</div>';
+    $view .= '<div class="col-sm-5">';
+    $view .= '<table class="table table-striped">';
+    $view .= '<tr><th class="text-center">面接日時</th><td class="text-center">'.h($result["interview_date"]).'</td></tr>';
+    $view .= '<tr><th class="text-center">誕生日</th><td class="text-center">'.h($result["birthday"]).'</td></tr>';
+    // $view .= '<tr><th class="text-center">ステージ</th><td class="text-center">'.h($result["stage"]).'</td></tr>';
+    $view .= '<tr><th class="text-center">部門</th><td class="text-center">'.h($result["devision_name"]).'</td></tr>';
+    $view .= '<tr><th class="text-center">職種</th><td class="text-center">'.h($result["position_name"]).'</td></tr>';
+    $view .= '<tr><th class="text-center">タイトル</th><td class="text-center">'.h($result["position_title"]).'</td></tr>';
+    $view .= '</table>';
+    $view .= '</div>';
+  }
+}
+
+?>
+
+
 <html lang="ja">
 <head>
 <meta charset="utf-8">
@@ -44,14 +89,7 @@ label#inteviewer{
 <div class="container">
   <div class="row">
     <div class="col-sm-1"></div>
-    <div class="col-sm-5 div_vertical-middle">
-      <?php include("./template/info_name.html") ?>
-      <!-- <p class="name_kana text-center">ツチヤ　マサアキ</p>
-      <h2 class="name text-center">土屋　正昭</h2> -->
-    </div>
-    <div class="col-sm-5">
-      <?php include("./template/info_table.html") ?>
-    </div>
+      <?=$view?>
     <div class="col-sm-1"></div>
   </div>
 </div>
@@ -60,7 +98,7 @@ label#inteviewer{
   <div class="row">
 
   <form method="post" action="insert.php">
-    <input type="hidden" name="interviewee_name" value="土屋　正昭">
+    <input type="hidden" name="interviewee_id" value="<?= $interviewee_id ?>">
 
     <div class="form-group item_name item">
       <div class="row">

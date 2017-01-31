@@ -1,6 +1,7 @@
 <?php
 
 include("./function/function.php");
+$interviewee_id = $_POST["target_inteviewee"];
 
 //1.  DB接続します
 try {
@@ -10,7 +11,7 @@ try {
 }
 
 //２．データ登録SQL作成
-$stmt = $pdo->prepare("SELECT * FROM interview_result WHERE interviewee_name ='土屋 正昭'");
+$stmt = $pdo->prepare("SELECT * FROM interview_result WHERE interviewee_id = $interviewee_id");
 $status = $stmt->execute();
 
 //３．データ表示
@@ -44,8 +45,40 @@ if($status==false){
   }
 }
 // var_dump($view);
-var_dump($data_s);
-$json_data_s = json_encode($data_s)
+// var_dump($data_s);
+
+$json_data_s = json_encode($data_s);
+
+
+//ここからinterviewee_info
+
+$stmt2 = $pdo->prepare("SELECT * FROM interviewee_info WHERE id = $interviewee_id");
+$status2 = $stmt2->execute();
+
+//３．データ表示
+$view_info="";
+$view_name="";
+if($status2==false){
+  //execute（SQL実行時にエラーがある場合）
+  $error = $stmt2->errorInfo();
+  exit("ErrorQuery:".$error[2]);
+
+}else{
+  //Selectデータの数だけ自動でループしてくれる
+  while( $result_info = $stmt2->fetch(PDO::FETCH_ASSOC)){
+    $view_name .= '<p class="text-center">'.h($result_info["interviewee_name_kana"]).'</p>';
+    $view_name .= '<h2 class="text-center">'.h($result_info["interviewee_name"]).'</h2>';
+    $view_info .= '<table class="table table-striped">';
+    $view_info .= '<tr><th class="text-center">面接日時</th><td class="text-center">'.h($result_info["interview_date"]).'</td></tr>';
+    $view_info.= '<tr><th class="text-center">誕生日</th><td class="text-center">'.h($result_info["birthday"]).'</td></tr>';
+    // $view_info .= '<tr><th class="text-center">ステージ</th><td class="text-center">'.h($result_info["stage"]).'</td></tr>';
+    $view_info .= '<tr><th class="text-center">部門</th><td class="text-center">'.h($result_info["devision_name"]).'</td></tr>';
+    $view_info .= '<tr><th class="text-center">職種</th><td class="text-center">'.h($result_info["position_name"]).'</td></tr>';
+    $view_info .= '<tr><th class="text-center">タイトル</th><td class="text-center">'.h($result_info["position_title"]).'</td></tr>';
+    $view_info .= '</table>';
+  }
+}
+
 ?>
 
 
@@ -87,7 +120,7 @@ $json_data_s = json_encode($data_s)
 <body>
 <?php include("./template/nav.html") ?>
 <div class="info_name">
-<?php include("./template/info_name.html") ?>
+  <?= $view_name ?>
 </div>
 <div class="container">
   <div class="row">
@@ -96,7 +129,7 @@ $json_data_s = json_encode($data_s)
       <canvas id="myChart" width="400" height="400"></canvas>
     </div>
     <div class="col-sm-4">
-      <?php include("./template/info_table.html") ?>
+      <?= $view_info ?>
     </div>
     <div class="col-sm-1"></div>
   </div>

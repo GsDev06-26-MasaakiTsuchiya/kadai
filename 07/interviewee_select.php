@@ -75,24 +75,24 @@ if($status==false){
   <div class="row">
     <div class="col-sm-1"></div>
     <div class="col-sm-10 text-center">
-        <input class="btn btn-default" type="button" id="to_input" value="評価入力"><input class="btn btn-info" type="button" id="to_output_data" value="結果表示">
+        <input class="btn btn-default" type="button" id="to_input_data" value="評価入力"><input class="btn btn-info" type="button" id="to_output_data" value="結果表示">
     </div>
     <div class="col-sm-1"></div>
   </div>
 </div>
 
 <?php include("./template/footer.html") ?>
-  <script>
+<script>
   $(function(){
       $('#to_output_data').click(function() {
           $('#form').attr('action', 'output_data.php');
           $('#form').submit();
       });
-      $('#to_input_tada').click(function() {
+      $('#to_input_data').click(function() {
           $('#form').attr('action', 'input_data.php');
           $('#form').submit();
       });
   });
-  </script>
+</script>
 </body>
 </html>

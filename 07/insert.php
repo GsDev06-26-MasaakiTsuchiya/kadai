@@ -2,7 +2,7 @@
 //1. POSTデータ取得
 
 $interviewer_name =  $_POST["interviewer_name"];
-$interviewee_name =  $_POST["interviewee_name"];
+$interviewee_id =  $_POST["interviewee_id"];
 $score_0 = $_POST["score_0"];
 $score_1 = $_POST["score_1"];
 $score_2 = $_POST["score_2"];
@@ -28,10 +28,10 @@ try {
 
 
 //３．データ登録SQL作成
-$stmt = $pdo->prepare("INSERT INTO interview_result(id, interviewer_name, interviewee_name, score_0, score_1, score_2, score_3, score_4, score_5, qualitative_0, qualitative_1, qualitative_2, qualitative_3, qualitative_4, qualitative_5, comment,
-indate )VALUES(NULL, :interviewer_name, :interviewee_name, :score_0, :score_1, :score_2, :score_3, :score_4, :score_5, :qualitative_0, :qualitative_1, :qualitative_2, :qualitative_3, :qualitative_4, :qualitative_5, :comment, sysdate())");
+$stmt = $pdo->prepare("INSERT INTO interview_result(id, interviewer_name, interviewee_id, score_0, score_1, score_2, score_3, score_4, score_5, qualitative_0, qualitative_1, qualitative_2, qualitative_3, qualitative_4, qualitative_5, comment,
+indate )VALUES(NULL, :interviewer_name, :interviewee_id, :score_0, :score_1, :score_2, :score_3, :score_4, :score_5, :qualitative_0, :qualitative_1, :qualitative_2, :qualitative_3, :qualitative_4, :qualitative_5, :comment, sysdate())");
 $stmt->bindValue(':interviewer_name', $interviewer_name, PDO::PARAM_STR);  //Integer（数値の場合 PDO::PARAM_INT)
-$stmt->bindValue(':interviewee_name', $interviewee_name, PDO::PARAM_STR);  //Integer（数値の場合 PDO::PARAM_INT)
+$stmt->bindValue(':interviewee_id', $interviewee_id, PDO::PARAM_INT);  //Integer（数値の場合 PDO::PARAM_INT)
 $stmt->bindValue(':score_0', $score_0, PDO::PARAM_INT);  //Integer（数値の場合 PDO::PARAM_INT)
 $stmt->bindValue(':score_1', $score_1, PDO::PARAM_INT);  //Integer（数値の場合 PDO::PARAM_INT)
 $stmt->bindValue(':score_2', $score_2, PDO::PARAM_INT);  //Integer（数値の場合 PDO::PARAM_INT)
@@ -54,7 +54,7 @@ if($status==false){
   exit("QueryError:".$error[2]);
 }else{
   //５．index.phpへリダイレクト
-  header("Location: input_data.php");//location: のあとに必ずスペースが入る
+  header("Location: interviewee_select.php");//location: のあとに必ずスペースが入る
   exit;
 
 }
