@@ -22,10 +22,10 @@ table のセルを改行する方法
 http://qiita.com/n_s_y_m/items/cb29d730e63772b02475
 
 
-general ci はひらがなとカタカナを別に考える
+26番の土屋です。
+提出した課題のソースコードは以下の通りです。
+https://github.com/GsDev06-26-MasaakiTsuchiya/kadai/tree/master/06
 
-INSERT INTO gs_an_table(
-    id,name,email,naiyou,indate
-    )VALUES(
-        NULL, '佐々木', 'test@test.jp', '内容2', sysdate()
-        );
+レーダーチャートはjavascriptのライブラリ　chart.js　を使いました。
+レスポンシブル対応にはbootstrapを使いました。
+よろしくお願いいたします。

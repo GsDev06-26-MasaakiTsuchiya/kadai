@@ -1,34 +1,5 @@
 <?php
 
-//array["$result["score_0"]",$result["score_1"],]
-
-// if(isset($_POST["user_name"])){
-//   $user_name =  $_POST["user_name"];
-//   $skill_point_0 = $_POST["skill_point_0"];
-//   $skill_qualitative_0 = $_POST["skill_qualitative_0"];
-//   $skill_point_1 = $_POST["skill_point_1"];
-//   $skill_qualitative_1 = $_POST["skill_qualitative_1"];
-//   $skill_point_2 = $_POST["skill_point_2"];
-//   $skill_qualitative_2 = $_POST["skill_qualitative_2"];
-//   $skill_point_3 = $_POST["skill_point_3"];
-//   $skill_qualitative_3 = $_POST["skill_qualitative_3"];
-//   $skill_point_4 = $_POST["skill_point_4"];
-//   $skill_qualitative_4 = $_POST["skill_qualitative_4"];
-//   $skill_point_5 = $_POST["skill_point_5"];
-//   $skill_qualitative_5 = $_POST["skill_qualitative_5"];
-//   $skill_qualitative_6 = $_POST["skill_qualitative_6"];
-//   // //データ書き込み
-//   $str = $user_name.",".$skill_point_0.",".$skill_point_1.",".$skill_point_2.",".$skill_point_3.",".$skill_point_4.",".$skill_point_5.",".$skill_qualitative_0.",".$skill_qualitative_1.",".$skill_qualitative_2.",".$skill_qualitative_3.",".$skill_qualitative_4.",".$skill_qualitative_5.",".$skill_qualitative_6;
-//   $file = fopen("data/data.csv","a");	// ファイル読み込み
-//   flock($file, LOCK_EX);			// ファイルロック 他の人からアクセスできなくする決め打ち
-//   fwrite($file, $str."\n");
-//   flock($file, LOCK_UN);			// ファイルロック解除
-//   fclose($file);
-// }
-// // // else{
-// //   echo "中身が無いよ";
-// //   exit();
-// // }
 include("./function/function.php");
 
 //1.  DB接続します
@@ -75,20 +46,9 @@ if($status==false){
 // var_dump($view);
 var_dump($data_s);
 $json_data_s = json_encode($data_s)
-
-//データ読み込み
-
-// $lines = file('data/data.csv');//data for table
-//
-// //dataList for chart
-// $csv = fopen("data/data.csv","r");
-// $dataList = [];
-// while($array = fgetcsv($csv)){
-//   array_push($dataList, $array);
-// }
-// $json_data = json_encode($dataList);
-
 ?>
+
+
 <html lang="ja">
 <head>
 <meta charset="utf-8">
@@ -102,9 +62,6 @@ $json_data_s = json_encode($data_s)
   body{
     background:#f8f8f8;
   }
-  /*th {
-    white-space: nowrap;
-  }*/
   td.comment{
     word-wrap:break-word;
   }
@@ -185,17 +142,6 @@ var myChart = new Chart(ctx, {
   data: {
     labels: ["能力・スキル", "協調性", "コミュニケーション", "積極性", "モラル", "定着度"],
     datasets: dataSets
-    // datasets: [{
-    //   label: 'apples',
-    //   backgroundColor: "rgba(153,255,51,0.4)",
-    //   borderColor: "rgba(153,255,51,1)",
-    //   data: [9, 19, 3, 17, 28, 24, 7]
-    // }, {
-    //   label: 'oranges',
-    //   backgroundColor: "rgba(255,153,0,0.4)",
-    //   borderColor: "rgba(255,153,0,1)",
-    //   data: [30, 29, 5, 5, 20, 3, 10]
-    // }]
     },
   options:{
       scale:{

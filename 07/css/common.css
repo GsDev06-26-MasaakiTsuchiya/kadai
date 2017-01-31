@@ -9,3 +9,7 @@ footer{
 body{
   background:#f8f8f8;
 }
+
+div.radio_item{
+  border: 1px solid #000;
+}
