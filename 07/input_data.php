@@ -1,6 +1,6 @@
 <?php
 include("./function/function.php");
-$interviewee_id = $_POST["target_inteviewee"];
+$interviewee_id = $_GET["target_inteviewee"];
 
 try {
   $pdo = new PDO('mysql:dbname=gs_db;charset=utf8;host=localhost','root','');

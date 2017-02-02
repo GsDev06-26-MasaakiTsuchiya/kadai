@@ -17,7 +17,9 @@
   <label for="devision_name">部署名</label><input class="form-control" type="text" name="devision_name" value="">
   <label for="position_name">職種</label><input class="form-control" type="text" name="position_name" value="">
   <label for="position_title">タイトル</label><input class="form-control" type="text" name="position_title" value="">
-  <input type="submit" value="設定">
+  <div class="text-center">
+    <input class="btn btn-default" type="submit" value="設定">
+  </div>
 </form>
 
 <?php include("./template/footer.html") ?>

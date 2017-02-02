@@ -1,8 +1,8 @@
 <?php
 
 include("./function/function.php");
-$interviewee_id = $_POST["target_inteviewee"];
-
+// $interviewee_id = $_POST["target_inteviewee"];
+$interviewee_id = $_GET["target_inteviewee"];
 //1.  DB接続します
 try {
   $pdo = new PDO('mysql:dbname=gs_db;charset=utf8;host=localhost','root','');
@@ -11,11 +11,13 @@ try {
 }
 
 //２．データ登録SQL作成
-$stmt = $pdo->prepare("SELECT * FROM interview_result WHERE interviewee_id = $interviewee_id");
+$stmt = $pdo->prepare("SELECT * FROM interview_result, interviewee_info WHERE interview_result.interviewee_id = $interviewee_id AND interviewee_info.id = $interviewee_id");
 $status = $stmt->execute();
 
 //３．データ表示
 $view="";
+$view_info="";
+$view_name="";
 $data_s = [];
 if($status==false){
   //execute（SQL実行時にエラーがある場合）
@@ -41,43 +43,94 @@ if($status==false){
 
     $data = array(h($result["score_0"]),h($result["score_1"]),h($result["score_2"]),h($result["score_3"]),h($result["score_4"]),h($result["score_5"]),h($result["interviewer_name"]));
     array_push($data_s, $data);
-    // $view.= '<p>'.$result["indate"].":".$result["name"].'</p>';上と同じ
+
+    $view_name .= '<p class="text-center">'.h($result["interviewee_name_kana"]).'</p>';
+    $view_name .= '<h2 class="text-center">'.h($result["interviewee_name"]).'</h2>';
+    $view_info .= '<table class="table table-striped">';
+    $view_info .= '<tr><th class="text-center">面接日時</th><td class="text-center">'.h($result["interview_date"]).'</td></tr>';
+    $view_info.= '<tr><th class="text-center">誕生日</th><td class="text-center">'.h($result["birthday"]).'</td></tr>';
+    // $view_info .= '<tr><th class="text-center">ステージ</th><td class="text-center">'.h($result["stage"]).'</td></tr>';
+    $view_info .= '<tr><th class="text-center">部門</th><td class="text-center">'.h($result["devision_name"]).'</td></tr>';
+    $view_info .= '<tr><th class="text-center">職種</th><td class="text-center">'.h($result["position_name"]).'</td></tr>';
+    $view_info .= '<tr><th class="text-center">タイトル</th><td class="text-center">'.h($result["position_title"]).'</td></tr>';
+    $view_info .= '</table>';
+
   }
 }
-// var_dump($view);
-// var_dump($data_s);
+
 
 $json_data_s = json_encode($data_s);
 
 
-//ここからinterviewee_info
-
-$stmt2 = $pdo->prepare("SELECT * FROM interviewee_info WHERE id = $interviewee_id");
-$status2 = $stmt2->execute();
-
-//３．データ表示
-$view_info="";
-$view_name="";
-if($status2==false){
-  //execute（SQL実行時にエラーがある場合）
-  $error = $stmt2->errorInfo();
-  exit("ErrorQuery:".$error[2]);
-
-}else{
-  //Selectデータの数だけ自動でループしてくれる
-  while( $result_info = $stmt2->fetch(PDO::FETCH_ASSOC)){
-    $view_name .= '<p class="text-center">'.h($result_info["interviewee_name_kana"]).'</p>';
-    $view_name .= '<h2 class="text-center">'.h($result_info["interviewee_name"]).'</h2>';
-    $view_info .= '<table class="table table-striped">';
-    $view_info .= '<tr><th class="text-center">面接日時</th><td class="text-center">'.h($result_info["interview_date"]).'</td></tr>';
-    $view_info.= '<tr><th class="text-center">誕生日</th><td class="text-center">'.h($result_info["birthday"]).'</td></tr>';
-    // $view_info .= '<tr><th class="text-center">ステージ</th><td class="text-center">'.h($result_info["stage"]).'</td></tr>';
-    $view_info .= '<tr><th class="text-center">部門</th><td class="text-center">'.h($result_info["devision_name"]).'</td></tr>';
-    $view_info .= '<tr><th class="text-center">職種</th><td class="text-center">'.h($result_info["position_name"]).'</td></tr>';
-    $view_info .= '<tr><th class="text-center">タイトル</th><td class="text-center">'.h($result_info["position_title"]).'</td></tr>';
-    $view_info .= '</table>';
-  }
-}
+// ここから
+// //２．データ登録SQL作成
+// $stmt = $pdo->prepare("SELECT * FROM interview_result WHERE interviewee_id = $interviewee_id");
+// $status = $stmt->execute();
+//
+// //３．データ表示
+// $view="";
+// $data_s = [];
+// if($status==false){
+//   //execute（SQL実行時にエラーがある場合）
+//   $error = $stmt->errorInfo();
+//   exit("ErrorQuery:".$error[2]);
+//
+// }else{
+//   //Selectデータの数だけ自動でループしてくれる
+//   while( $result = $stmt->fetch(PDO::FETCH_ASSOC)){
+//     $view .= '<h3 class="text-center">'.h($result["interviewer_name"]).'</h3>';
+//     $view .= '<table class="table table-striped evaluation_detail" style="table-layout:fixed;width:100%;">';
+//     $view .= '<thead><tr><th class="text-center">評価項目</th><th class="text-center">score</th><th class="text-center">comment</th></tr></thead>';
+//     $view .= '<tbody>';
+//     $view .= '<tr><td class="text-center">能力・スキル</td><td class="point text-center">'.h($result["score_0"]).'</td><td class="comment">'.h($result["qualitative_0"]).'</td></tr>';
+//     $view .= '<tr><td class="text-center">協調性</td><td class="point text-center">'.h($result["score_1"]).'</td><td class="comment">'.h($result["qualitative_1"]).'</td></tr>';
+//     $view .= '<tr><td class="text-center">コミュニケーション能力</td><td class="point text-center">'.h($result["score_2"]).'</td><td class="comment">'.h($result["qualitative_2"]).'</td></tr>';
+//     $view .= '<tr><td class="text-center">積極性</td><td class="point text-center">'.h($result["score_3"]).'</td><td class="comment">'.h($result["qualitative_3"]).'</td></tr>';
+//     $view .= '<tr><td class="text-center">モラル・性格面</td><td class="point text-center">'.h($result["score_4"]).'</td><td class="comment">'.h($result["qualitative_4"]).'</td></tr>';
+//     $view .= '<tr><td class="text-center">定着度</td><td class="point text-center">'.h($result["score_5"]).'</td><td class="comment">'.h($result["qualitative_5"]).'</td></tr>';
+//     $view .= '<tr><td class="text-center">平均点/総評</td><td class="point text-center">1</td><td class="comment">'.h($result["comment"]).'</td></tr>';
+//     $view .= '</tbody>';
+//     $view .= '</table>';
+//
+//     $data = array(h($result["score_0"]),h($result["score_1"]),h($result["score_2"]),h($result["score_3"]),h($result["score_4"]),h($result["score_5"]),h($result["interviewer_name"]));
+//     array_push($data_s, $data);
+//     // $view.= '<p>'.$result["indate"].":".$result["name"].'</p>';上と同じ
+//   }
+// }
+// // var_dump($view);
+// // var_dump($data_s);
+//
+// $json_data_s = json_encode($data_s);
+//
+//
+// //ここからinterviewee_info
+//
+// $stmt2 = $pdo->prepare("SELECT * FROM interviewee_info WHERE id = $interviewee_id");
+// $status2 = $stmt2->execute();
+//
+// //３．データ表示
+// $view_info="";
+// $view_name="";
+// if($status2==false){
+//   //execute（SQL実行時にエラーがある場合）
+//   $error = $stmt2->errorInfo();
+//   exit("ErrorQuery:".$error[2]);
+//
+// }else{
+//   //Selectデータの数だけ自動でループしてくれる
+//   while( $result_info = $stmt2->fetch(PDO::FETCH_ASSOC)){
+//     $view_name .= '<p class="text-center">'.h($result_info["interviewee_name_kana"]).'</p>';
+//     $view_name .= '<h2 class="text-center">'.h($result_info["interviewee_name"]).'</h2>';
+//     $view_info .= '<table class="table table-striped">';
+//     $view_info .= '<tr><th class="text-center">面接日時</th><td class="text-center">'.h($result_info["interview_date"]).'</td></tr>';
+//     $view_info.= '<tr><th class="text-center">誕生日</th><td class="text-center">'.h($result_info["birthday"]).'</td></tr>';
+//     // $view_info .= '<tr><th class="text-center">ステージ</th><td class="text-center">'.h($result_info["stage"]).'</td></tr>';
+//     $view_info .= '<tr><th class="text-center">部門</th><td class="text-center">'.h($result_info["devision_name"]).'</td></tr>';
+//     $view_info .= '<tr><th class="text-center">職種</th><td class="text-center">'.h($result_info["position_name"]).'</td></tr>';
+//     $view_info .= '<tr><th class="text-center">タイトル</th><td class="text-center">'.h($result_info["position_title"]).'</td></tr>';
+//     $view_info .= '</table>';
+//   }
+// }
 
 ?>
 
