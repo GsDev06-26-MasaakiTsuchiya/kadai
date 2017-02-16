@@ -12,6 +12,8 @@
 
 <div class="collapse navbar-collapse target">
   <ul class="nav navbar-nav navbar-right">
+      <?php if(isset($_SESSION["kanri_flg"]) AND $_SESSION["kanri_flg"] == 1){
+          echo '
                 <li class="dropdown active">
 					<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button">ユーザー設定<span class="caret"></span></a>
 					<ul class="dropdown-menu" role="menu">
@@ -19,6 +21,9 @@
 						<li><a href="user_list_view.php">ユーザー一覧/修正/削除</a></li>
 					</ul>
 				</li>
+                ';
+            } ?>
+
 				<li class="dropdown">
 					<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button">bookmark<span class="caret"></span></a>
 					<ul class="dropdown-menu" role="menu">
