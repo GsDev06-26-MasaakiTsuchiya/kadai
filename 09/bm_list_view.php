@@ -27,7 +27,7 @@ if($status==false){
   while( $result = $stmt->fetch(PDO::FETCH_ASSOC)){
     $view .= "<p>";
     $view .= '<a href="bm_detail.php?id='.$result["id"].'">';
-    $view .= $result["book_name"].$result["book_url"].$result["comment"]."[".$result["indate"]."]";
+    $view .= $result["book_name"];
     $view .= "</a>";
     $view .= " ";
     $view .= '<a href="bm_delete.php?id='.$result["id"].'">';
@@ -46,20 +46,16 @@ if($status==false){
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>bookmark一覧</title>
+<script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
 <link rel="stylesheet" href="css/range.css">
 <link href="css/bootstrap.min.css" rel="stylesheet">
 <style>div{padding: 10px;font-size:16px;}</style>
 </head>
 <body id="main">
 <!-- Head[Start] -->
-<header>
-  <nav class="navbar navbar-default">
-    <div class="container-fluid">
-      <div class="navbar-header">
-      <a class="navbar-brand" href="index.php">データ選択</a>
-    </div>
-  </nav>
-</header>
+<?php include("./template/nav.html"); ?>
 <!-- Head[End] -->
 
 <!-- Main[Start] -->

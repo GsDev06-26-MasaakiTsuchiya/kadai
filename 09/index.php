@@ -15,12 +15,7 @@ login_check();
 <body>
 
 <!-- Head[Start] -->
-<header>
-  <nav class="navbar navbar-default">
-    <div class="container-fluid">
-    <div class="navbar-header"><a class="navbar-brand" href="select.php">データ一覧</a></div>
-  </nav>
-</header>
+<?php include("/template/nav.html") ?>
 <!-- Head[End] -->
 
 <!-- Main[Start] -->
