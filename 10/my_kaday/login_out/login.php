@@ -15,7 +15,7 @@
 <?php include("../template/nav.php") ?>
 
 <!-- lLOGINogin_act.php は認証処理用のPHPです。 -->
-<div class="container">
+<!-- <div class="container">
   <div class="row">
     <div class="col-sm-8"></div>
     <div class="col-sm-3">
@@ -28,6 +28,38 @@
       </form>
     </div>
     <div class="col-sm-1"></div>
+  </div>
+</div> -->
+<div class="text-center">
+<button type="button" class="btn btn-lg btn-primary" data-toggle="modal" data-target="#loginModal">Log in</button>
+</div>
+<div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="loginModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="loginModalLabel">login</h4>
+      </div>
+      <div class="modal-body">
+        <form action="login_act.php" method="post">
+          <div class="form-group">
+            <label for="lid" class="control-label">ID:</label>
+            <input type="text" class="form-control" name="lid" id="lid">
+          </div>
+          <div class="form-group">
+            <label for="lpw" class="control-label">PW:</label>
+            <input type="password" class="form-control" name="lpw" id="lpw">
+          </div>
+          <div class="form-group">
+          <input type="submit" class="btn btn-primary" value="Login">
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+
+      </div>
+    </div>
   </div>
 </div>
 

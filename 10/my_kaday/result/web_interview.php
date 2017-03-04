@@ -1,4 +1,15 @@
 <?php
+session_start();
+include("../function/function.php");
+login_check();
+if($_SESSION){
+$interviewer_name = $_SESSION["interviewer_name"];
+}else{
+  header("Location: ../login_out/login.php");
+  exit;
+}
+
+
 
 ?>
 <!DOCTYPE html>
@@ -38,7 +49,7 @@
   // MultiParty インスタンスを生成
   multiparty = new MultiParty( {
     "key": "68ea836f-c243-4b68-b5c9-ee68fcf48c97",  /* SkyWay keyを指定 */
-    "id" : "1"
+    "id" : "<?=$interviewer_name?>"
   });
   var i = 0;
 

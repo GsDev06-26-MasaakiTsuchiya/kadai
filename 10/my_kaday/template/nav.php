@@ -21,6 +21,8 @@
 						<li><a href="../setting/interviewee_select.php">候補者新規登録</a></li>
 						<li><a href="../setting/interviewer_select.php">面接者登録</a></li>
             <li><a href="../job_post/job_post_select.php">求人管理</a></li>
+            <li><a href="../apply/apply_index_input.php">求人サイト作成</a></li>
+            <li><a href="../apply/index.php">求人サイト確認</a></li>
 					</ul>
 				</li>
                 ';

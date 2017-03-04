@@ -115,7 +115,7 @@ $pdo = db_con();
 
 //３．データ登録SQL作成
 $stmt = $pdo->prepare("INSERT INTO interviewee_info(id,interviewee_name,interviewee_name_kana,job_post_id,birthday,sex,mail,postcode,address,github,portfolio,motivation,resume0,resume1,resume2,indate
-)VALUES(NULL,:interviewee_name,:interviewee_name_kana,:job_post_id,:birthday,:sex,:mail,:postcode,:address,:github,:portfolio,:resume0,:resume1,:resume2,sysdate())");
+)VALUES(NULL,:interviewee_name,:interviewee_name_kana,:job_post_id,:birthday,:sex,:mail,:postcode,:address,:github,:portfolio,:motivation,:resume0,:resume1,:resume2,sysdate())");
 $stmt->bindValue(':interviewee_name', $interviewee_name, PDO::PARAM_STR);
 $stmt->bindValue(':interviewee_name_kana', $interviewee_name_kana, PDO::PARAM_STR);
 $stmt->bindValue(':job_post_id', $job_post_id, PDO::PARAM_INT);

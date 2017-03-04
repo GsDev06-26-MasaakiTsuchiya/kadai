@@ -8,7 +8,7 @@ function h($str){
 function login_check(){
   if(!isset($_SESSION["chk_ssid"])||($_SESSION["chk_ssid"])!=session_id()){
     echo "Login error";
-    header("Location: /09/my_kaday/login_out/login.php");
+    header("Location: /10/my_kaday/login_out/login.php");
     exit();
     }else{
       session_regenerate_id(true);

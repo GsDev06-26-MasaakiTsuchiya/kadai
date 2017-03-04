@@ -107,6 +107,10 @@ label#inteviewer{
     <div class="col-sm-1"></div>
   </div>
 </div>
+<div class="container text-center">
+<a class="btn btn-lg btn-info" href="web_interview.php" target="_blank">web面接開始</a>
+  </div>
+
 <div class="container">
   <h2 class="text-center form_title">面接結果入力フォーム</h2>
   <div class="row">
