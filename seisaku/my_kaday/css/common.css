@@ -1,0 +1,23 @@
+footer{
+  background:#000;
+  height:50px;
+  width:100%;
+}
+.footer_text{
+  padding-top:10px;
+  padding-bottom:10px;
+  color:#fff;
+}
+html{
+  height:100%;
+  font-family:font-family: "Hiragino Kaku Gothic ProN","メイリオ", sans-serif;
+}
+body{
+  background:#f8f8f8;
+  height:100%;
+  margin:0;
+}
+
+div.radio_item{
+  border: 1px solid #000;
+}

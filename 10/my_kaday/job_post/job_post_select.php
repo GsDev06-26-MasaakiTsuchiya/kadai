@@ -3,11 +3,7 @@ session_start();
 include("../function/function.php");
 login_check();
 //1.  DB接続します
-try {
-  $pdo = new PDO('mysql:dbname=gs_db;charset=utf8;host=localhost','root','');
-} catch (PDOException $e) {
-  exit('データベースに接続できませんでした。'.$e->getMessage());
-}
+$pdo = db_con();
 
 //２．データ登録SQL作成 該当の候補者情報の抽出
 $stmt = $pdo->prepare("SELECT * FROM job_post");
