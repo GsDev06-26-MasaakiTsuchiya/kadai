@@ -8,7 +8,7 @@ $pdo = db_con();
 
 //２．データ登録SQL作成
 $stmt = $pdo->prepare("SELECT * FROM interviewer_list,interview where interviewer_list.interviewer_id = :id AND interview.id=interviewer_list.interview_id");
-$stmt->bindValue(':id',$_SESSION["interviewer_id"],PDO::PARAM_INT);
+$stmt->bindValue(':id',$_SESSION["user_id"],PDO::PARAM_INT);
 $status = $stmt->execute();
 
 //３．データ表示
@@ -42,7 +42,7 @@ if($status==false){
     //自分が入力済みか確認
         $stmt3 = $pdo->prepare("SELECT id FROM interview_result where interview_id=:interview_id AND interviewer_id = :interviewer_id");
         $stmt3->bindValue(':interview_id',$result["interview_id"],PDO::PARAM_INT);
-        $stmt3->bindValue(':interviewer_id',$_SESSION["interviewer_id"],PDO::PARAM_INT);
+        $stmt3->bindValue(':interviewer_id',$_SESSION["user_id"],PDO::PARAM_INT);
         $status3 = $stmt3->execute();
         if($status3==false){
           //execute（SQL実行時にエラーがある場合）
@@ -77,17 +77,12 @@ if($status==false){
 
   }
 }
+$html_title = '無料から使えるクラウド採用管理、面接システム Smart Interview';
 ?>
-
-
-<html lang="ja">
+<!DOCTYPE html>
+<html>
 <head>
-<meta charset="utf-8">
-<title>interview_rader_chart > input</title>
-<script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
-<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
-<link rel="stylesheet" href="../css/common.css">
+<?php include("../template/head.php") ?>
 <style>
 
 html,body{

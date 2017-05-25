@@ -4,7 +4,7 @@ session_start();
 include("../function/function.php");
 login_check();
 
-$interviewer_id = $_SESSION["interviewer_id"];
+$interviewer_id = $_SESSION["user_id"];
 $interview_id =  $_POST["interview_id"];
 $interviewee_id =  $_POST["interviewee_id"];
 $score_0 = $_POST["score_0"];

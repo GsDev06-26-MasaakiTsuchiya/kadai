@@ -2,18 +2,13 @@
 session_start();
 include("../function/function.php");
 login_check();
+$html_title = '無料から使えるクラウド採用管理、面接システム Smart Interview';
 ?>
-
-
-<html lang="ja">
+<!DOCTYPE html>
+<html>
 <head>
-<meta charset="utf-8">
-<title>interview_rader_chart > input</title>
-<script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
-<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+<?php include("../template/head.php") ?>
 <script src="../ckeditor/ckeditor.js"></script>
-<link rel="stylesheet" href="../css/common.css">
 <style>
 h3{
   margin-bottom:30px;
@@ -48,7 +43,7 @@ h3{
         </div>
         <div class="form-group">
           <label class="control-label col-sm-2" for="job_img_f">紹介画像</label>
-          <div class="col-sm-5"><input id="up_image" type="file" class="form-control" name="job_img_f" accept=“image/*” capture=“camera”></div>
+          <div class="col-sm-5"><input id="up_image" type="file" class="form-control-file" name="job_img_f" accept=“image/*” capture=“camera”></div>
           <div class="col-sm-5"><img id="thumbnail" class="img-responsive" src=""></div>
         </div>
         <div class="form-group">

@@ -1,12 +1,12 @@
 <div class="container-fluid" style="padding:0;">
-<nav class="navbar navbar-default navbar-static-top">
+<nav class="navbar navbar-default navbar-fixed-top">
 <div class="navbar-header">
   <button class="navbar-toggle" data-toggle="collapse" data-target=".target">
     <span class="icon-bar"></span>
     <span class="icon-bar"></span>
     <span class="icon-bar"></span>
   </button>
-  <a class="navbar-brand" href="#"><?=h($res["corp_name"])?>  -採用情報-</a>
+  <a class="navbar-brand" href="#"><?=h($res["corp_name"])?> -採用情報-</a>
 </div>
 
 <div class="collapse navbar-collapse target">

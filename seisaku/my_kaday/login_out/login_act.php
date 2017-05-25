@@ -36,8 +36,8 @@ $val = $stmt->fetch(); //1レコードだけ取得する方法
 //5. 該当レコードがあればSESSIONに値を代入
 if( $val["id"] != "" ){
   $_SESSION["chk_ssid"]          = session_id();
-  $_SESSION["interviewer_id"]    = $val['id'];
-  $_SESSION["interviewer_name"]   = $val['interviewer_name'];
+  $_SESSION["user_id"]    = $val['id'];
+  $_SESSION["user_name"]   = $val['interviewer_name'];
   $_SESSION["kanri_flg"]         = $val['kanri_flg'];
   $_SESSION["life_flg"]          = $val['life_flg'];
 

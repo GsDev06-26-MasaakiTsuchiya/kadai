@@ -54,7 +54,6 @@ if($status2==false){
 }else{
   $res = $stmt2->fetch();
 }
-
 $stmt3 = $pdo->prepare("SELECT * FROM  job_post WHERE id = :job_post_id");
 $stmt3->bindValue(':job_post_id',$res["job_post_id"], PDO::PARAM_INT);
 $status3 = $stmt3->execute();
@@ -66,18 +65,17 @@ if($status3==false){
   $res_job_post = $stmt3->fetch();
 }
 
+
+
+
+
+$html_title = '無料から使えるクラウド採用管理、面接システム Smart Interview';
 ?>
-
-
-<html lang="ja">
+<!DOCTYPE html>
+<html>
 <head>
-<meta charset="utf-8">
-<title>interview_rader_chart > result </title>
-<script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+<?php include("../template/head.php") ?>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
-<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
-<link rel="stylesheet" href="../css/common.css">
 <style type="text/css">
   body{
     background:#f8f8f8;
@@ -103,6 +101,10 @@ if($status3==false){
   margin-bottom:30px;
 }
 
+.tr_select{
+ font-size:1.2em;
+}
+
 </style>
 </head>
 <body>
@@ -111,7 +113,9 @@ if($status3==false){
 <div class="info_name">
 <p class="text-center"><?= h($res["interviewee_name_kana"])?></p>
 <h2 class="text-center"><?= h($res["interviewee_name"])?></h2>
-<p class="text-center"><a href="web_interview.php?interview_id=<?=$interview_id?>" target="_blank">ビデオ面接</a></p>
+<p class="text-center">
+  <!-- <a class="btn btn-info" href="web_interview.php?interview_id=<?=$interview_id?>" target="_blank">ビデオ面接</a></p> -->
+  <!-- <button class="btn btn-info" id="web_interview_open">ウェブ面接</button> -->
 </div>
 <div class="container">
   <div class="row">
@@ -120,12 +124,58 @@ if($status3==false){
       <canvas id="myChart" width="400" height="400"></canvas>
     </div>
     <div class="col-sm-4">
-<table class="table table-striped">';
-<tr><th class="text-center">誕生日</th><td class="text-center"><?= h($res["birthday"]) ?></td></tr>
-<tr><th class="text-center">職種</th><td class="text-center"><?= h($res_job_post["job_title"]) ?></td></tr>
-<tr><th class="text-center">ステージ</th><td class="text-center"><?= $interview_type[h($res["interview_type"])] ?></td></tr>
-<tr><th class="text-center">面接日時</th><td class="text-center"><?= h($res["interview_date_time"]) ?></td></tr>
-</table>
+      <table class="table table-striped">
+      <tr><th class="text-center">誕生日</th><td class="text-center"><?= h($res["birthday"]) ?></td></tr>
+      <tr><th class="text-center">職種</th><td class="text-center"><?= h($res_job_post["job_title"]) ?></td></tr>
+      <tr><th class="text-center">ステージ</th><td class="text-center"><?= $interview_type[h($res["interview_type"])] ?></td></tr>
+      <tr><th class="text-center">面接日時</th><td class="text-center"><?= h($res["interview_date_time"]) ?></td></tr>
+      <!-- 合否が確定している場合は、合否情報を出力 -->
+      <?php if($res["stage_flg"]== 4 OR $res["stage_flg"] == 5): ?>
+        <tr><th class="text-center">合否判定</th><td class="text-center"><?php if($res["stage_flg"]==4){echo '合格';}elseif($res["stage_flg"]==5){echo '不合格';} ?></td></tr>
+        <tr><th class="text-center">判定日時</th><td class="text-center"><?= h($res["fix_time"]) ?></td></tr>
+        <tr><th class="text-center">合否コメント</th><td class="text-center"><?= h($res["t_r_reason"]) ?></td></tr>
+      <?php endif;?>
+      </table>
+
+
+      <!-- 管理者でかつ合否が未確定だと合否入力のフォームを表示する。管理者でかつ合否が確定していたら合否をキャンセルするボダンを表示 -->
+      <?php if($res["stage_flg"]!= 4 AND $res["stage_flg"]!= 5 AND $_SESSION["kanri_flg"] == 1): ?>
+      <table class="table tr_input">
+        <thead>
+          <tr><th class="text-center">合否入力(管理者)</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>
+            <form class="form-horizontal" method="post" action="pass_faile_insert.php?interview_id=<?= h($interview_id); ?>">
+              <div class="form-group">
+                <label class="radio-inline">
+                <input type="radio" name="stage_flg" value="4" required><span class="tr_select">通過</span>
+                </label>
+                <label class="radio-inline">
+                <input type="radio" name="stage_flg" value="5" required><span class="tr_select">不合格</span>
+                </label>
+              </div>
+              <div class="form-group">
+                <label for="t_r_reason" style="font-weight:normal;">合否に関するコメント</label>
+                <textarea class="form-control" name="t_r_reason" rows="10" id="t_r_reason" required placeholder="合格・不合格についての理由やコメントを入力"></textarea>
+              </div>
+                <div class="form-group text-left">
+                  <input type="submit" class="btn btn-default" value="決定">
+                </div>
+            </form>
+          </tr><td>
+        </tbody>
+      </table>
+    <?php elseif($res["stage_flg"]== 4 || $res["stage_flg"]== 5 AND $_SESSION["kanri_flg"] == 1): ?>
+        <div class="text-right">
+          <a href="pass_faile_reset.php?interview_id=<?= h($interview_id); ?>" class="btn btn-default">合否を未確定に戻す</a>
+          <!-- <form class="form-horizontal" method="post" action="pass_faile_reset.php?interview_id=<?= h($interview_id); ?>">
+              <div class="form-group text-center">
+                <input type="submit" class="btn btn-default" name="stage_flg" value="合否を未確定に戻す">
+              </div>
+          </form> -->
+        </div>
+    <?php endif;?>
     </div>
     <div class="col-sm-1"></div>
   </div>
@@ -182,6 +232,19 @@ var myChart = new Chart(ctx, {
   }
 
 });
+
+// $(function(){
+// // var openedWindow;
+// // //
+// // function openWindow() {
+// //   openedWindow = window.open("web_intervivew0.php?interview_id=<?= $interview_id ?>");
+// // }
+// //
+// $('web_interview_open').click(function(){
+//   window.open('web_interview0.php?interview_id=<?= $interview_id ?>');
+//   return false;
+// });
+// });
 
 </script>
 

@@ -40,25 +40,32 @@ if($status2==false){
 
 
 
-?>
-
-<html lang="ja">
-<head>
-<meta charset="utf-8">
-<title>interview_setting</title>
-<script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
-<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
-<link rel="stylesheet" href="../css/common.css">
+  $html_title = '無料から使えるクラウド採用管理、面接システム Smart Interview';
+  ?>
+  <!DOCTYPE html>
+  <html>
+  <head>
+  <?php include("../template/head.php") ?>
+  <style>
+  /*html,body{
+    height: 100%;
+  }*/
+  .container{
+    margin-bottom:20px;
+  }
+  </style>
 </head>
 <body>
 <?php include("../template/nav.php") ?>
 
-<h3 class="text-center">選考登録</h3>
+<h3 class="text-center">面接設定</h3>
 <div class="container">
   <div class="row">
     <div class="col-sm-1"></div>
     <div class="col-sm-10">
+      <div class="text-right back_to_select">
+        <a class="btn btn-default" href="interviewee_select.php">候補者一覧に戻る</a>
+      </div>
       <form class="form-group form-horizontal" action="interview_insert.php" method="post">
         <div class="form-group">
           <label class="control-label col-sm-2" for="interviewee_name">候補者名</label><div class="col-sm-10"><p class="form-control-static"><?= h($res["interviewee_name"]); ?></p></div>

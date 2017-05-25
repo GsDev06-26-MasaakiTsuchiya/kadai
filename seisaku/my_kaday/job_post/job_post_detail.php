@@ -18,19 +18,15 @@ if($status==false){
   $res = $stmt->fetch();
 }
 
+$html_title = '無料から使えるクラウド採用管理、面接システム Smart Interview';
 ?>
-
-
-<html lang="ja">
+<!DOCTYPE html>
+<html>
 <head>
-<meta charset="utf-8">
-<title>interview_rader_chart > input</title>
-<script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
-<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+<?php include("../template/head.php") ?>
 <script src="../ckeditor/ckeditor.js"></script>
-<link rel="stylesheet" href="../css/common.css">
 <style>
+
 h3{
   margin-bottom:30px;
 }
@@ -60,16 +56,16 @@ h3{
     <div class="col-sm-10">
       <form class="form-group form-horizontal" action="job_post_update.php" method="post" enctype="multipart/form-data">
         <div class="form-group">
-          <label class="control-label col-sm-2" for="job_title">ポジション名</label><div class="col-sm-10"><input type="text" class="form-control" name="job_title" value="<?=$res["job_title"]?>"></div>
+          <label class="control-label col-sm-2" for="job_title">ポジション名</label><div class="col-sm-10"><input type="text" class="form-control" name="job_title" value="<?=h($res["job_title"]);?>"></div>
         </div>
         <div class="form-group">
-          <label class="control-label col-sm-2" for="job_img_f">紹介画像</label><div class="col-sm-5"><input id="up_image" type="file" class="form-control" name="job_img_f" accept=“image/*” capture=“camera”></div>
-        <?= $res["job_img"] ? '<div class="col-sm-5"><img id="thumbnail" class="img-responsive" src="'.$res["job_img"].'" alt=""></div>' : '<div class="col-sm-5"><img id="thumbnail" class="img-responsive" src="" alt=""></div>'?>
+          <label class="control-label col-sm-2" for="job_img_f">紹介画像</label><div class="col-sm-5"><input id="up_image" type="file" class="form-control-file" name="job_img_f" accept=“image/*” capture=“camera”></div>
+        <?= $res["job_img"] ?> '<div class="col-sm-5"><img id="thumbnail" class="img-responsive" src="'.$res["job_img"].'" alt=""></div>' : '<div class="col-sm-5"><img id="thumbnail" class="img-responsive" src="" alt=""></div>'?>
         </div>
         <div class="form-group">
           <label class="control-label col-sm-2" for="job_description">職務内容</label>
           <div class="col-sm-10">
-            <textArea id="job_description" class="form-control" name="job_description" rows="10" cols="80"><?=$res["job_description"]?></textArea>
+            <textArea id="job_description" class="form-control" name="job_description" rows="10" cols="80"><?= $res["job_description"];?></textArea>
           </div>
           <script>
           CKEDITOR.replace('job_description');
@@ -78,7 +74,7 @@ h3{
         <div class="form-group">
           <label class="control-label col-sm-2" for="requirement">応募要件</label>
           <div class="col-sm-10">
-            <textArea id="requirement" class="form-control" name="requirement" rows="10" cols="80"><?=$res["requirement"]?></textArea>
+            <textArea id="requirement" class="form-control" name="requirement" rows="10" cols="80"><?=$res["requirement"];?></textArea>
           </div>
           <script>
           CKEDITOR.replace('requirement');
@@ -96,7 +92,7 @@ h3{
         <div class="form-group">
           <label class="control-label col-sm-2" for="estimate_income">想定給与</label>
           <div class="col-sm-10">
-            <input type="text" class="form-control" name="estimate_income" value="<?=$res["estimate_income"]?>">
+            <input type="text" class="form-control" name="estimate_income" value="<?=h($res["estimate_income"]);?>">
           </div>
         </div>
         <div class="form-group">
@@ -111,7 +107,7 @@ h3{
         <div class="form-group">
           <label class="control-label col-sm-2" for="location">勤務地</label>
           <div class="col-sm-10">
-            <input type="text" class="form-control" name="location" value="<?=$res["location"]?>">
+            <input type="text" class="form-control" name="location" value="<?=h($res["location"]);?>">
           </div>
         </div>
         <div class="form-group">

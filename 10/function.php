@@ -25,15 +25,29 @@ function kanri_check(){
   }
 }
 //dbに接続
+//local
+//function db_con(){
+//  $dbname='gs_db';
+//  try {
+//    $pdo = new PDO('mysql:dbname='.$dbname.';charset=utf8;host=localhost','root','');
+//  } catch (PDOException $e) {
+//    exit('DbConnectError:'.$e->getMessage());
+//  }
+//  return $pdo;
+//}
+
+//sakura
 function db_con(){
-  $dbname='gs_db';
+  $dbname='m-tsuchiya_seisaku';
   try {
-    $pdo = new PDO('mysql:dbname='.$dbname.';charset=utf8;host=localhost','root','');
+    $pdo = new PDO('mysql:dbname='.$dbname.';charset=utf8;host=mysql537.db.sakura.ne.jp','m-tsuchiya','muramura1');
   } catch (PDOException $e) {
     exit('DbConnectError:'.$e->getMessage());
   }
   return $pdo;
 }
+
+
 
 //SQL処理エラー
 function queryError($stmt){
@@ -42,5 +56,18 @@ function queryError($stmt){
   exit("QueryError:".$error[2]);
 }
 
+function inteview_type($interview_type_num){
+$interview_type = array("書類選考","1次面接","2次面接","3次面接");
+return $interview_type[$interview_type_num];
+}
+function skyway_key(){
+  return "c87b073d-a677-409a-8b04-3323574b50e1";
+  //c87b073d-a677-409a-8b04-3323574b50e1 sakura
+  //68ea836f-c243-4b68-b5c9-ee68fcf48c97 local
+}
+
+
+//
 
 ?>
+

@@ -12,7 +12,7 @@ $pdo = db_con();
 
 $stmt = $pdo->prepare("SELECT * FROM interview_result WHERE interview_id = :interview_id AND interviewer_id = :interviewer_id");
 $stmt->bindValue(':interview_id',$interview_id, PDO::PARAM_INT);
-$stmt->bindValue(':interviewer_id',$_SESSION["interviewer_id"], PDO::PARAM_INT);
+$stmt->bindValue(':interviewer_id',$_SESSION["user_id"], PDO::PARAM_INT);
 $status = $stmt->execute();
 
 if($status==false){
@@ -53,27 +53,29 @@ if($status3==false){
 }
 
 
+//アンケート結果があれば表示する
+$stmt_anchet = $pdo->prepare("SELECT * FROM anchet WHERE interviewee_id = :interviewee_id AND stage_flg= :stage_flg");
+$stmt_anchet->bindValue(':interviewee_id',$interviewee_id, PDO::PARAM_INT);
+$stmt_anchet->bindValue(':stage_flg',2, PDO::PARAM_INT);//2= 回答済み
 
+$status_anchet = $stmt_anchet->execute();
+if($status_anchet==false){
+  //execute（SQL実行時にエラーがある場合）
+  $error = $stmt_anchet->errorInfo();
+  exit("ErrorQuery_anchet:".$error[2]);
+}else{
+  $res_anchet = $stmt_anchet->fetch();
+}
+
+
+$html_title = '無料から使えるクラウド採用管理、面接システム Smart Interview';
 ?>
-
-
-<html lang="ja">
+<!DOCTYPE html>
+<html>
 <head>
-<meta charset="utf-8">
-<title>interview_rader_chart > input</title>
-<script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
-<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
-<link rel="stylesheet" href="../css/common.css">
+<?php include("../template/head.php") ?>
 <style>
-html, body {
-  height: 100%;
-  margin: 0;
-  padding: 0;
-}
-body{
-  background:#f8f8f8;
-}
+
 
 .div_vertical-middle{
   /*vertical-align: middle;*/
@@ -96,6 +98,9 @@ label{
 label#inteviewer{
   font-size:1em;
 }
+.submit_btn {
+  margin:40px;
+}
 </style>
 </head>
 <body>
@@ -113,10 +118,16 @@ label#inteviewer{
     <tr><th class="text-center">職種</th><td class="text-center"><?=h($res_interviewee_info["job_title"])?></td></tr>
     <tr><th class="text-center">選考ステージ</th><td class="text-center"><?=$interview_type[h($res_interview["interview_type"])] ?></td></tr>
     <tr><th class="text-center">面接日時</th><td class="text-center"><?=h($res_interview["interview_date_time"]) ?></td></tr>
+    <?php if($res_anchet["anchet_id"]):?>
+    <tr><th class="text-center">アンケート</th><td class="text-center"><a class="btn btn-default" href="../setting/questionnaire_show.php?anchet_id=<?= $res_anchet["anchet_id"]?>">アンケート結果</a></td></tr>
+    <?php endif;?>
     </table>
     </div>
     <div class="col-sm-1"></div>
   </div>
+  <div class="container text-center">
+  <a class="btn btn-lg btn-info" href="web_interview.php?interview_id=<?= $interview_id ?>" target="_blank">web面接開始</a>
+    </div>
 </div>
 <div class="container">
   <h2 class="text-center form_title">面接結果入力フォーム</h2>

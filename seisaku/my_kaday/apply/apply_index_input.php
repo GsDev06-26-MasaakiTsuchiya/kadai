@@ -2,18 +2,12 @@
 session_start();
 include("../function/function.php");
 login_check();
+$html_title = '無料から使えるクラウド採用管理、面接システム Smart Interview';
 ?>
-
-
-<html lang="ja">
+<!DOCTYPE html>
+<html>
 <head>
-<meta charset="utf-8">
-<title>interview_rader_chart > input</title>
-<script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
-<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
-<script src="../ckeditor/ckeditor.js"></script>
-<link rel="stylesheet" href="../css/common.css">
+<?php include("../template/head.php") ?>
 <style>
 h3{
   margin-bottom:30px;
@@ -42,8 +36,13 @@ h3{
         </div>
         <div class="form-group">
           <label class="control-label col-sm-2" for="corp_logo_f">会社ロゴ</label>
-          <div class="col-sm-5"><input id="up_image" type="file" class="form-control" name="corp_logo_f" accept=“image/*” capture=“camera”></div>
+          <div class="col-sm-5"><input id="up_image" type="file" class="form-control-file" name="corp_logo_f" accept=“image/*” capture=“camera”></div>
           <div class="col-sm-5"><img id="thumbnail" class="img-responsive" src=""></div>
+        </div>
+        <div class="form-group">
+          <label class="control-label col-sm-2" for="corp_logo_f">会社カラー</label>
+          <div class="col-sm-5"><input id="corp_color" type="color" class="form-control" name="corp_color" ></div>
+          <div class="col-sm-5"></div>
         </div>
         <div class="form-group">
           <label class="control-label col-sm-2" for="main_title_text">メインタイトル</label>
@@ -65,7 +64,7 @@ h3{
         </div>
         <div class="form-group">
           <label class="control-label col-sm-2" for="main_photo_f">メイン画像</label>
-          <div class="col-sm-5"><input id="up_main_image" type="file" class="form-control" name="main_photo_f" accept=“image/*” capture=“camera”></div>
+          <div class="col-sm-5"><input id="up_main_image" type="file" class="form-control-file" name="main_photo_f" accept=“image/*” capture=“camera”></div>
           <div class="col-sm-5"><img id="main_thumbnail" class="img-responsive" src=""></div>
         </div>
 

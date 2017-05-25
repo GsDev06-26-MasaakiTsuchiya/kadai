@@ -17,21 +17,17 @@ if($status==false){
 }
 
 
+$html_title = '無料から使えるクラウド採用管理、面接システム Smart Interview';
 ?>
-
-
-<html lang="ja">
+<!DOCTYPE html>
+<html>
 <head>
-<meta charset="utf-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>interview_rader_chart > input</title>
-<script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
-<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
-  <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
-  <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-<link rel="stylesheet" href="../css/common.css">
+<?php include("../template/head.php") ?>
+<script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+<script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+<script src="../ckeditor/ckeditor.js"></script>
+<style>
+
 <style>
 body{
   word-wrap:break-word;
@@ -87,20 +83,20 @@ body{
           </div>
           <div class="row">
             <div class="col-sm-2 item">勤務地:</div>
-            <div class="col-sm-10"><?=$res["location"]?></div>
+            <div class="col-sm-10"><?=$res["location"];?></div>
           </div>
           <div class="row">
             <div class="col-sm-2 item">勤務時間:</div>
-            <div class="col-sm-10"><?=$res["work_hour"]?></div>
+            <div class="col-sm-10"><?=$res["work_hour"];?></div>
           </div>
           <div class="row">
             <div class="col-sm-2 item">備考:</div>
-            <div class="col-sm-10"><?=$res["etc"]?></div>
+            <div class="col-sm-10"><?=$res["etc"];?></div>
           </div>
         </div>
           <div class="text-center">
             <hr>
-            <a class="btn btn-warning" href="job_post_view_form.php?job_post_id=<?=$res["id"]?>&job_title=<?=$res["job_title"]?>">この職種に応募する</a>
+            <a class="btn btn-warning" href="job_post_view_form.php?job_post_id=<?=h($res["id"]);?>&job_title=<?=h($res["job_title"]);?>">この職種に応募する</a>
           </div>
       </div>
       <div class="col-sm-1"></div>

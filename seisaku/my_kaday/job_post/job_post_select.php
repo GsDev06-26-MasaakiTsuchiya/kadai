@@ -22,14 +22,14 @@ if($status==false){
     $view .= '<tr>';
     $view .= '<td><span class="glyphicon glyphicon-duplicate"></span></td>';
     $view .= '<td>'.h($result["job_title"]).'</td>';
-    $jd_text_of_head = substr($result["job_description"],0,50);
+    $jd_text_of_head = mb_substr($result["job_description"],0,50);
     $view .= '<td>'.$jd_text_of_head.'</td>';
     $view .= '<td>';
-    $view .= '<a class="btn btn-sm btn-info" href="job_post_view.php?job_post_id='.$result["id"].'">確認</a> <a class="btn btn-sm btn-primary" href="job_post_detail.php?job_post_id='.$result["id"].'">修正</a> <a class="btn btn-sm btn-danger" href="job_post_delete.php?job_post_id='.$result["id"].'">削除</a>';
-    if($result["life_flg"]==0){
-      $view .=' <button class="btn btn-sm btn-info close" id="'.$result["id"].'">掲載中</button>';
+    $view .= '<a class="btn btn-sm btn-info" href="job_post_view.php?job_post_id='.h($result["id"]).'">確認</a> <a class="btn btn-sm btn-primary" href="job_post_detail.php?job_post_id='.h($result["id"]).'">修正</a> <a class="btn btn-sm btn-danger" href="job_post_delete.php?job_post_id='.h($result["id"]).'">削除</a>';
+    if($result["life_flg"]==1){
+      $view .=' <button class="openClose btn btn-warning btn-sm open" id="'.h($result["id"]).'">休止中</button>';
     }else{
-      $view .=' <button class="btn btn-sm btn-warning open" id="'.$result["id"].'">休止中</button>';
+      $view .=' <button class="openClose btn-success btn btn-sm close" id="'.h($result["id"]).'">掲載中</button>';
     }
     $view .= '</td>';
     $view .= '</tr>';
@@ -74,17 +74,13 @@ if($status==false){
 
 
 
+$html_title = '無料から使えるクラウド採用管理、面接システム Smart Interview';
 ?>
-
-
-<html lang="ja">
+<!DOCTYPE html>
+<html>
 <head>
-<meta charset="utf-8">
-<title>interview_rader_chart > input</title>
-<script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
-<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
-<link rel="stylesheet" href="../css/common.css">
+<?php include("../template/head.php") ?>
+<script src="../ckeditor/ckeditor.js"></script>
 <style>
 
 .container{
@@ -110,69 +106,40 @@ if($status==false){
   </table>
 </div>
 <?php include("../template/footer.html") ?>
-
 </body>
 <script>
 $(function(){
-  //求人を休止する
-  $('.close').click(function(){
+  $('.openClose').on('click',function(){
     var target_id = this.id;
     console.log(target_id);
-    $.ajax({
-      type:"post",
-      url: "stop_start.php?job_post_id=".target_id ,
-      data: {
-        "life_flg":"1"
-      },
-      success: function(j_data){
-        console.log("closing");
-        }
-      });
-        $(this).addClass('btn-warning open').removeClass('btn-success close').text('休止中');
-    });
-  //求人を再開する
-  $('.open').click(function(){
-    var target_id = this.id;
-    console.log(target_id);
-    $.ajax({
-      type:"post",
-      url: "stop_start.php?job_post_id=".target_id ,
-      data: {
-        "life_flg":"0"
-      },
-      success: function(j_data){
-        console.log("openning");
+    if($(this).hasClass('close')){
+      $(this).removeClass('btn-success close').addClass('btn-warning open').text('').text('休止中');
+      $.ajax({
+        type:"post",
+        url: "stop_start.php?job_post_id=".target_id,
+        data: {
+          "life_flg":"1"
+        },
+        success: function(j_data){
+          console.log("closing");
+          }
+        });
+
+    }else if($(this).hasClass('open')){
+        $(this).removeClass('btn-warning open').addClass('btn-success close').text('').text('掲載中');
+        $.ajax({
+          type:"post",
+          url: "stop_start.php?job_post_id=".target_id,
+          data: {
+            "life_flg":"0"
+          },
+          success: function(j_data){
+            console.log("openning");
+          }
+        });
+
       }
     });
-    $(this).addClass('btn-success close').removeClass('btn-warning open').text('掲載中');
   });
-
-  // $('#close_id ').click(function(){
-  //   $.ajax({
-  //     type:"post",
-  //     url: "stop_start.php?job_post_id=",
-  //     data: {
-  //       "life_flg":"1"
-  //     },
-  //     success: function(j_data){
-  //       $("#close").attr('id','open').removeClass('btn-success').addClass('btn-warning').text('休止中');
-  //     }
-  //   });
-  // });
-  // //求人を再開する
-  // $('#open_id').click(function(){
-  //   $.ajax({
-  //     type:"post",
-  //     url: "stop_start.php",
-  //     data: {
-  //       "life_flg":"0"
-  //     },
-  //     success: function(j_data){
-  //       $("#open").attr('id','close').removeClass('btn-warning').addClass('btn-success').text('掲載中');
-  //     }
-  //   });
-  // });
-
-});
 </script>
 </html>

@@ -3,11 +3,29 @@ session_start();
 include("../function/function.php");
 login_check();
 $interview_id = $_GET["interview_id"];
-$interviewee_id = $_GET["interviewee_id"];
+// $interviewee_id = $_GET["interviewee_id"];
 
 $pdo = db_con();
 
 //２．データ登録SQL作成
+
+//interviewee_id 検索
+$stmt_interviewee_id = $pdo->prepare("SELECT * FROM interview WHERE id = :interview_id");
+$stmt_interviewee_id->bindValue(':interview_id',$interview_id, PDO::PARAM_INT);
+$status_interviewee_id = $stmt_interviewee_id->execute();
+
+if($status_interviewee_id==false){
+  //execute（SQL実行時にエラーがある場合）
+  $error = $stmt_interviewee_id->errorInfo();
+  exit("ErrorQuery_interviewee_id:".$error[2]);
+}else{
+  $res_interviewee_id= $stmt_interviewee_id->fetch();
+}
+
+$interviewee_id = $res_interviewee_id["interviewee_id"];
+
+
+
 $stmt = $pdo->prepare("SELECT * FROM interviewee_info,interview WHERE interviewee_info.id = :interviewee_id AND interview.id= :interview_id");
 $stmt->bindValue(':interviewee_id',$interviewee_id, PDO::PARAM_INT);
 $stmt->bindValue(':interview_id',$interview_id, PDO::PARAM_INT);
@@ -39,26 +57,27 @@ if($status2==false){
   $res_job_post= $stmt2->fetch();
 }
 
+//アンケート結果があれば表示する
+$stmt_anchet = $pdo->prepare("SELECT * FROM anchet WHERE interviewee_id = :interviewee_id AND stage_flg= :stage_flg");
+$stmt_anchet->bindValue(':interviewee_id',$interviewee_id, PDO::PARAM_INT);
+$stmt_anchet->bindValue(':stage_flg',2, PDO::PARAM_INT);//2= 回答済み
+
+$status_anchet = $stmt_anchet->execute();
+if($status_anchet==false){
+  //execute（SQL実行時にエラーがある場合）
+  $error = $stmt_anchet->errorInfo();
+  exit("ErrorQuery_anchet:".$error[2]);
+}else{
+  $res_anchet = $stmt_anchet->fetch();
+}
+
+$html_title = '無料から使えるクラウド採用管理、面接システム Smart Interview';
 ?>
-
-
-<html lang="ja">
+<!DOCTYPE html>
+<html>
 <head>
-<meta charset="utf-8">
-<title>interview_rader_chart > input</title>
-<script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
-<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
-<link rel="stylesheet" href="../css/common.css">
+<?php include("../template/head.php") ?>
 <style>
-html, body {
-  height: 100%;
-  margin: 0;
-  padding: 0;
-}
-body{
-  background:#f8f8f8;
-}
 
 .div_vertical-middle{
   /*vertical-align: middle;*/
@@ -81,6 +100,10 @@ label{
 label#inteviewer{
   font-size:1em;
 }
+
+.submit_btn {
+  margin:40px;
+}
 </style>
 </head>
 <body>
@@ -98,13 +121,16 @@ label#inteviewer{
         <tr><th class="text-center">職種</th><td class="text-center"><?=h($res_job_post["job_title"])?></td></tr>
         <tr><th class="text-center">選考ステージ</th><td class="text-center"><?=$interview_type[h($res["interview_type"])]?></td></tr>
         <tr><th class="text-center">面接日時</th><td class="text-center"><?=h($res["interview_date_time"])?></td></tr>
+        <?php if($res_anchet["anchet_id"]):?>
+        <tr><th class="text-center">アンケート</th><td class="text-center"><a class="btn btn-default" href="../setting/questionnaire_show.php?anchet_id=<?= $res_anchet["anchet_id"]?>">アンケート結果</a></td></tr>
+        <?php endif;?>
       </table>
     </div>
     <div class="col-sm-1"></div>
   </div>
 </div>
 <div class="container text-center">
-<a class="btn btn-lg btn-info" href="web_interview.php" target="_blank">web面接開始</a>
+<a class="btn btn-lg btn-info" href="web_interview.php?interview_id=<?= $interview_id ?>" target="_blank">web面接開始</a>
   </div>
 
 <div class="container">
